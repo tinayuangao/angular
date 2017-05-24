@@ -12,6 +12,7 @@ DEPLOYED_URL=https://$FIREBASE_PROJECT_ID.firebaseapp.com
 
   # Build the app
   yarn build
+  yarn payload-size
 
   # Deploy to staging
   firebase use "$FIREBASE_PROJECT_ID" --token "$FIREBASE_TOKEN"
