@@ -4,6 +4,9 @@ set -e -o pipefail
 
 cd `dirname $0`
 
+# Track payload size functions
+source ../scripts/ci/payload-size.sh
+
 # Workaround https://github.com/yarnpkg/yarn/issues/2165
 # Yarn will cache file://dist URIs and not update Angular code
 readonly cache=.yarn_local_cache
@@ -13,6 +16,7 @@ function rm_cache {
 rm_cache
 mkdir $cache
 trap rm_cache EXIT
+
 
 for testDir in $(ls | grep -v node_modules) ; do
   [[ -d "$testDir" ]] || continue
@@ -25,5 +29,6 @@ for testDir in $(ls | grep -v node_modules) ; do
     rm -f yarn.lock
     yarn install --cache-folder ../$cache
     yarn test || exit 1
+    trackPayloadSize "$testDir" "$testDir/dist/*.js" "" false
   )
 done
