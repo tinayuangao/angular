@@ -68,6 +68,7 @@ uploadData() {
   name="$1"
   payloadData="{${payloadData}}"
 
+  echo The data for $name is:
   echo $payloadData
 
   if [[ "$TRAVIS_PULL_REQUEST" == "false" ]]; then

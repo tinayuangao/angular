@@ -17,6 +17,11 @@ rm_cache
 mkdir $cache
 trap rm_cache EXIT
 
+# Create and build a new Angular project by angular-cli
+testDir="hello_world__cli"
+npm install -g @angular/cli
+ng new hello-world-cli --directory $testDir
+sed -i 's/ng test/ng build \&\& ng test --single-run/g' $testDir/package.json
 
 for testDir in $(ls | grep -v node_modules) ; do
   [[ -d "$testDir" ]] || continue
@@ -29,6 +34,6 @@ for testDir in $(ls | grep -v node_modules) ; do
     rm -f yarn.lock
     yarn install --cache-folder ../$cache
     yarn test || exit 1
-    trackPayloadSize "$testDir" "$testDir/dist/*.js" "" false
+    trackPayloadSize "$testDir" "dist/*.js" "" false
   )
 done
