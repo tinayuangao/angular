@@ -29,6 +29,11 @@ import {resolveForwardRef} from './forward_ref';
 export class ReflectiveKey {
   public readonly displayName: string;
   /**
+   * Returns a stringified token.
+   */
+  readonly displayName: string;
+
+  /**
    * Private
    */
   constructor(public token: Object, public id: number) {

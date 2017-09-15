@@ -45,9 +45,14 @@ export interface CssAstVisitor {
 }
 
 export abstract class CssAst {
-  constructor(public location: ParseSourceSpan) {}
-  get start(): ParseLocation { return this.location.start; }
-  get end(): ParseLocation { return this.location.end; }
+  readonly start: ParseLocation;
+  readonly end: ParseLocation;
+
+  constructor(public location: ParseSourceSpan) {
+    this.start = location.start;
+    this.end = location.end;
+  }
+
   abstract visit(visitor: CssAstVisitor, context?: any): any;
 }
 

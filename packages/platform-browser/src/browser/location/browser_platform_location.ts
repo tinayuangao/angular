@@ -26,6 +26,9 @@ export class BrowserPlatformLocation extends PlatformLocation {
   public readonly location: Location;
   private _history: History;
 
+  readonly search: string;
+  readonly hash: string;
+
   constructor(@Inject(DOCUMENT) private _doc: any) {
     super();
     this._init();
@@ -36,6 +39,8 @@ export class BrowserPlatformLocation extends PlatformLocation {
   _init() {
     (this as{location: Location}).location = getDOM().getLocation();
     this._history = getDOM().getHistory();
+    (this as{hash: string}).hash = this._location.hash;
+    (this as{search: string}).search = this._location.search;
   }
 
   getBaseHrefFromDOM(): string { return getDOM().getBaseHref(this._doc) !; }
@@ -48,10 +53,8 @@ export class BrowserPlatformLocation extends PlatformLocation {
     getDOM().getGlobalEventTarget(this._doc, 'window').addEventListener('hashchange', fn, false);
   }
 
-  get pathname(): string { return this.location.pathname; }
-  get search(): string { return this.location.search; }
-  get hash(): string { return this.location.hash; }
-  set pathname(newPath: string) { this.location.pathname = newPath; }
+  get pathname(): string { return this._location.pathname; }
+  set pathname(newPath: string) { this._location.pathname = newPath; }
 
   pushState(state: any, title: string, url: string): void {
     if (supportsState()) {

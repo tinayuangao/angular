@@ -169,24 +169,27 @@ function invertMap(obj: {[name: string]: string}): {[name: string]: string} {
  * Wrap a symbol and change its kind to component.
  */
 class OverrideKindSymbol implements Symbol {
-  public readonly kind: string;
-  constructor(private sym: Symbol, kindOverride: string) { this.kind = kindOverride; }
+  readonly name: string;
+  readonly language: string;
+  readonly type: Symbol|undefined;
+  readonly container: Symbol|undefined;
+  readonly public: boolean;
+  readonly callable: boolean;
+  readonly nullable: boolean;
+  readonly definition: Definition;
+  readonly kind: string;
 
-  get name(): string { return this.sym.name; }
-
-  get language(): string { return this.sym.language; }
-
-  get type(): Symbol|undefined { return this.sym.type; }
-
-  get container(): Symbol|undefined { return this.sym.container; }
-
-  get public(): boolean { return this.sym.public; }
-
-  get callable(): boolean { return this.sym.callable; }
-
-  get nullable(): boolean { return this.sym.nullable; }
-
-  get definition(): Definition { return this.sym.definition; }
+  constructor(private sym: Symbol, private kindOverride: string) {
+    this.name = sym.name;
+    this.language = sym.language;
+    this.type = sym.type;
+    this.container = sym.container;
+    this.public = sym.public;
+    this.callable = sym.callable;
+    this.nullable = sym.nullable;
+    this.definition = sym.definition;
+    this.kind = kindOverride;
+  }
 
   members() { return this.sym.members(); }
 

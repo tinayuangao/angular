@@ -24,11 +24,15 @@
  * `['+' at 1-10, 'a' at 1-2]`.
  */
 export class AstPath<T> {
-  constructor(private path: T[], public position: number = -1) {}
+  readonly empty: boolean;
+  readonly head: T|undefined;
+  readonly tail: T|undefined;
 
-  get empty(): boolean { return !this.path || !this.path.length; }
-  get head(): T|undefined { return this.path[0]; }
-  get tail(): T|undefined { return this.path[this.path.length - 1]; }
+  constructor(private path: T[], public position: number = -1) {
+    this.empty = !this.path || !this.path.length;
+    this.head = this.path[0];
+    this.tail = this.path[this.path.length - 1];
+  }
 
   parentOf(node: T|undefined): T|undefined {
     return node && this.path[this.path.indexOf(node) - 1];
